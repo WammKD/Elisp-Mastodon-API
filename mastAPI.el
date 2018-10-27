@@ -41,7 +41,7 @@
   (with-current-buffer buffer
     (let ((json+ (buffer-string)))
       (json-read-from-string (substring json+ (string-match-p "{" json+))))))
-(defun mastAPI-request (reqMeth finalDomain headers data &optional async-p)
+(defun mastAPI-request (reqMeth finalDomain headers data async-p)
   ""
   (let ((url-request-method        reqMeth)
         (url-request-extra-headers headers)
