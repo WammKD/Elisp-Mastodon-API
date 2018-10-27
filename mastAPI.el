@@ -36,6 +36,8 @@
 
 
 
+(defun mastAPI-create-URI (domain &rest rest)
+  (apply 'concat (cons domain (cons (unless (string-suffix-p "/" domain) "/") rest))))
 (defun mastAPI-process (buffer)
   ""
   (with-current-buffer buffer
@@ -66,7 +68,7 @@
   ""
   (mastAPI-request
     "POST"
-    (concat domain (unless (string-suffix-p "/" domain) "/") "api/v1/apps")
+    (mastAPI-create-URI domain "api/v1/apps")
     '()
     `(("client_name"   . ,clientName)
       ("redirect_uris" . ,(or redirectURI mastAPI-NO_REDIRECT))
@@ -94,7 +96,7 @@
   ""
   (mastAPI-request
     "POST"
-    (concat domain (unless (string-suffix-p "/" domain) "/") "oauth/token")
+    (mastAPI-create-URI domain "oauth/token")
     '()
     `(("client_id"     . ,clientID)
       ("client_secret" . ,clientSecret)
@@ -109,7 +111,7 @@
   ""
   (mastAPI-request
     "POST"
-    (concat domain (unless (string-suffix-p "/" domain) "/") "oauth/token")
+    (mastAPI-create-URI domain "oauth/token")
     '()
     `(("client_id"     . ,clientID)
       ("client_secret" . ,clientSecret)
@@ -126,10 +128,7 @@
   ""
   (mastAPI-request
     "GET"
-    (concat
-      domain
-      (unless (string-suffix-p "/" domain) "/") "api/v1/accounts/"
-      (number-to-string id))
+    (mastAPI-create-URI domain "api/v1/accounts/" (number-to-string id))
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
     async-p))
@@ -138,10 +137,7 @@
   ""
   (mastAPI-request
     "GET"
-    (concat
-      domain
-      (unless (string-suffix-p "/" domain) "/")
-      "api/v1/accounts/verify_credentials")
+    (mastAPI-create-URI domain "api/v1/accounts/verify_credentials")
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
     async-p))
