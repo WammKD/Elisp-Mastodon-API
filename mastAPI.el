@@ -34,10 +34,10 @@
 ;; (defmacro mastAPI-defun (name para docOrBody &rest body)
 ;;   )
 
-(defun mastAPI-register-app (domain client-name website &optional redirect-url)
+(defun mastAPI-register-app (domain clientName website &optional redirectURI)
   ""
   (let ((url-request-method "POST")
-        (url-request-data   (concat "client_name="    client-name
+        (url-request-data   (concat "client_name="    clientName
                                     "&redirect_uris=" (or
                                                         redirect-url
                                                         "urn:ietf:wg:oauth:2.0:oob")
