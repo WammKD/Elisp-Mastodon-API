@@ -42,9 +42,9 @@
   (let ((url-request-method "POST")
         (url-request-data   (concat "client_name="    clientName
                                     "&redirect_uris=" (or
-                                    "&scopes="        "write read"
                                                         redirectURI
                                                         mastAPI-NO_REDIRECT)
+                                    "&scopes="        "read write follow"
                                     "&website="       website)))
     (with-current-buffer (url-retrieve-synchronously
                            (concat
