@@ -84,3 +84,23 @@
       (let ((json+ (buffer-string)))
         (json-read-from-string (substring json+ (string-match-p "{" json+)))))))
 
+(defun mastAPI-get-token-via-user-pass (domain       clientID
+                                        clientSecret username
+                                        password     &optional scopes)
+  ""
+  (let ((url-request-method "POST")
+        (url-request-data   (concat "client_id="      clientID
+                                    "&client_secret=" clientSecret
+                                    "&scope="         (or
+                                                        scopes
+                                                        "read write follow")
+                                    "&grant_type="    "password"
+                                    "&username="      username
+                                    "&password="      password)))
+    (with-current-buffer (url-retrieve-synchronously
+                           (concat
+                             domain
+                             (unless (string-suffix-p "/" domain) "/")
+                             "oauth/token"))
+      (let ((json+ (buffer-string)))
+        (json-read-from-string (substring json+ (string-match-p "{" json+)))))))
