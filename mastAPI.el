@@ -31,6 +31,9 @@
 (require 'url)
 (require 'json)
 
+(defconst mastAPI-NO_REDIRECT "urn:ietf:wg:oauth:2.0:oob"
+  "")
+
 ;; (defmacro mastAPI-defun (name para docOrBody &rest body)
 ;;   )
 
@@ -39,9 +42,9 @@
   (let ((url-request-method "POST")
         (url-request-data   (concat "client_name="    clientName
                                     "&redirect_uris=" (or
-                                                        "urn:ietf:wg:oauth:2.0:oob")
                                     "&scopes="        "write read"
                                                         redirectURI
+                                                        mastAPI-NO_REDIRECT)
                                     "&website="       website)))
     (with-current-buffer (url-retrieve-synchronously
                            (concat
