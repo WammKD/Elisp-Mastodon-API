@@ -112,3 +112,22 @@
                              "oauth/token"))
       (let ((json+ (buffer-string)))
         (json-read-from-string (substring json+ (string-match-p "{" json+)))))))
+
+
+
+;; Accounts
+(defun mastAPI-get-account (domain token id)
+  ""
+  (let ((url-request-method        "GET")
+        (url-request-extra-headers `(("Authorization" . ,(concat
+                                                           "Bearer "
+                                                           token)))))
+    (with-current-buffer (url-retrieve-synchronously
+                           (concat
+                             domain
+                             (unless (string-suffix-p "/" domain) "/")
+                             "api/v1/accounts/"
+                             (number-to-string id)))
+      (let ((json+ (buffer-string)))
+        (json-read-from-string (substring json+ (string-match-p "{" json+)))))))
+
