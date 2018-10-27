@@ -39,9 +39,9 @@
   (let ((url-request-method "POST")
         (url-request-data   (concat "client_name="    clientName
                                     "&redirect_uris=" (or
-                                                        redirect-url
                                                         "urn:ietf:wg:oauth:2.0:oob")
                                     "&scopes="        "write read"
+                                                        redirectURI
                                     "&website="       website)))
     (with-current-buffer (url-retrieve-synchronously
                            (concat
