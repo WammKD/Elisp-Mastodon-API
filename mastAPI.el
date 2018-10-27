@@ -34,6 +34,7 @@
 
 ;;; Code:
 (require 'url)
+(require 'json)
 
 ;; (defmacro mastAPI-defun (name para docOrBody &rest body)
 ;;   )
@@ -47,7 +48,11 @@
                                                         "urn:ietf:wg:oauth:2.0:oob")
                                     "&scopes="        "write read"
                                     "&website="       website)))
-    (url-retrieve
-      (concat domain (unless (string-suffix-p "/" domain) "/") "api/v1/apps")
-      '(lambda (status)
-         (switch-to-buffer (current-buffer))))))
+    (with-current-buffer (url-retrieve-synchronously
+                           (concat
+                             domain
+                             (unless (string-suffix-p "/" domain) "/")
+                             "api/v1/apps"))
+      (let ((json+ (buffer-string)))
+        (json-read-from-string (substring json+ (string-match-p "{" json+)))))))
+
