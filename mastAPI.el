@@ -64,20 +64,15 @@
 ;; App.s
 (defun mastAPI-register-app (domain clientName website &optional redirectURI)
   ""
-  (let ((url-request-method "POST")
-        (url-request-data   (concat "client_name="    clientName
-                                    "&redirect_uris=" (or
-                                                        redirectURI
-                                                        mastAPI-NO_REDIRECT)
-                                    "&scopes="        "read write follow"
-                                    "&website="       website)))
-    (with-current-buffer (url-retrieve-synchronously
-                           (concat
-                             domain
-                             (unless (string-suffix-p "/" domain) "/")
-                             "api/v1/apps"))
-      (let ((json+ (buffer-string)))
-        (json-read-from-string (substring json+ (string-match-p "{" json+)))))))
+  (mastAPI-request
+    "POST"
+    (concat domain (unless (string-suffix-p "/" domain) "/") "api/v1/apps")
+    '()
+    `(("client_name"   . ,clientName)
+      ("redirect_uris" . ,(or redirectURI mastAPI-NO_REDIRECT))
+      ("scopes"        . "read write follow")
+      ("website"       . ,website))
+    async-p))
 
 
 
@@ -94,73 +89,59 @@
     "&client_id="     clientID))
 
 (defun mastAPI-get-token-via-auth-code (domain       clientID
-                                        clientSecret authCode &optional redirectURI)
+                                        clientSecret authCode
+                                        &optional    redirectURI async-p)
   ""
-  (let ((url-request-method "POST")
-        (url-request-data   (concat "client_id="      clientID
-                                    "&client_secret=" clientSecret
-                                    "&grant_type="    "authorization_code"
-                                    "&code="          authCode
-                                    "&redirect_uri="  (or
-                                                        redirectURI
-                                                        mastAPI-NO_REDIRECT))))
-    (with-current-buffer (url-retrieve-synchronously
-                           (concat
-                             domain
-                             (unless (string-suffix-p "/" domain) "/")
-                             "oauth/token"))
-      (let ((json+ (buffer-string)))
-        (json-read-from-string (substring json+ (string-match-p "{" json+)))))))
+  (mastAPI-request
+    "POST"
+    (concat domain (unless (string-suffix-p "/" domain) "/") "oauth/token")
+    '()
+    `(("client_id"     . ,clientID)
+      ("client_secret" . ,clientSecret)
+      ("grant_type"    . "authorization_code")
+      ("code"          . ,authCode)
+      ("redirect_uri"  . ,(or redirectURI mastAPI-NO_REDIRECT)))
+    async-p))
 
 (defun mastAPI-get-token-via-user-pass (domain       clientID
                                         clientSecret username
-                                        password     &optional scopes)
+                                        password     &optional scopes async-p)
   ""
-  (let ((url-request-method "POST")
-        (url-request-data   (concat "client_id="      clientID
-                                    "&client_secret=" clientSecret
-                                    "&scope="         (or
-                                                        scopes
-                                                        "read write follow")
-                                    "&grant_type="    "password"
-                                    "&username="      username
-                                    "&password="      password)))
-    (with-current-buffer (url-retrieve-synchronously
-                           (concat
-                             domain
-                             (unless (string-suffix-p "/" domain) "/")
-                             "oauth/token"))
-      (let ((json+ (buffer-string)))
-        (json-read-from-string (substring json+ (string-match-p "{" json+)))))))
+  (mastAPI-request
+    "POST"
+    (concat domain (unless (string-suffix-p "/" domain) "/") "oauth/token")
+    '()
+    `(("client_id"     . ,clientID)
+      ("client_secret" . ,clientSecret)
+      ("scope"         . ,(or scopes "read write follow"))
+      ("grant_type"    . "password")
+      ("username"      . ,username)
+      ("password"      . ,password))
+    async-p))
 
 
 
 ;; Accounts
-(defun mastAPI-get-account (domain token id)
+(defun mastAPI-get-account (domain token id &optional async-p)
   ""
-  (let ((url-request-method        "GET")
-        (url-request-extra-headers `(("Authorization" . ,(concat
-                                                           "Bearer "
-                                                           token)))))
-    (with-current-buffer (url-retrieve-synchronously
-                           (concat
-                             domain
-                             (unless (string-suffix-p "/" domain) "/")
-                             "api/v1/accounts/"
-                             (number-to-string id)))
-      (let ((json+ (buffer-string)))
-        (json-read-from-string (substring json+ (string-match-p "{" json+)))))))
+  (mastAPI-request
+    "GET"
+    (concat
+      domain
+      (unless (string-suffix-p "/" domain) "/") "api/v1/accounts/"
+      (number-to-string id))
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
 
-(defun mastAPI-get-user-account (domain token)
+(defun mastAPI-get-user-account (domain token &optional async-p)
   ""
-  (let ((url-request-method        "GET")
-        (url-request-extra-headers `(("Authorization" . ,(concat
-                                                           "Bearer "
-                                                           token)))))
-    (with-current-buffer (url-retrieve-synchronously
-                           (concat
-                             domain
-                             (unless (string-suffix-p "/" domain) "/")
-                             "api/v1/accounts/verify_credentials"))
-      (let ((json+ (buffer-string)))
-        (json-read-from-string (substring json+ (string-match-p "{" json+)))))))
+  (mastAPI-request
+    "GET"
+    (concat
+      domain
+      (unless (string-suffix-p "/" domain) "/")
+      "api/v1/accounts/verify_credentials")
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
