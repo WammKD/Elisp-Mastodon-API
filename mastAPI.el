@@ -54,3 +54,14 @@
       (let ((json+ (buffer-string)))
         (json-read-from-string (substring json+ (string-match-p "{" json+)))))))
 
+(defun mastAPI-generate-user-auth-URI (domain clientID &optional redirectURI scopes)
+  ""
+  (concat
+    domain
+    (unless (string-suffix-p "/" domain) "/")
+    "oauth/authorize"
+    "?scope="         (or scopes "read%20write%20follow")
+    "&response_type=" "code"
+    "&redirect_uri="  (or redirectURI mastAPI-NO_REDIRECT)
+    "&client_id="     clientID))
+
