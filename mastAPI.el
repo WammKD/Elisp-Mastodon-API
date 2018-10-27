@@ -34,9 +34,14 @@
 (defconst mastAPI-NO_REDIRECT "urn:ietf:wg:oauth:2.0:oob"
   "")
 
+
+
 ;; (defmacro mastAPI-defun (name para docOrBody &rest body)
 ;;   )
 
+
+
+;; App.s
 (defun mastAPI-register-app (domain clientName website &optional redirectURI)
   ""
   (let ((url-request-method "POST")
@@ -54,6 +59,9 @@
       (let ((json+ (buffer-string)))
         (json-read-from-string (substring json+ (string-match-p "{" json+)))))))
 
+
+
+;; Auth.
 (defun mastAPI-generate-user-auth-URI (domain clientID &optional redirectURI scopes)
   ""
   (concat
