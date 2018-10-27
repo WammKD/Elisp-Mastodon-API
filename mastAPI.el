@@ -65,3 +65,22 @@
     "&redirect_uri="  (or redirectURI mastAPI-NO_REDIRECT)
     "&client_id="     clientID))
 
+(defun mastAPI-get-token-via-auth-code (domain       clientID
+                                        clientSecret authCode &optional redirectURI)
+  ""
+  (let ((url-request-method "POST")
+        (url-request-data   (concat "client_id="      clientID
+                                    "&client_secret=" clientSecret
+                                    "&grant_type="    "authorization_code"
+                                    "&code="          authCode
+                                    "&redirect_uri="  (or
+                                                        redirectURI
+                                                        mastAPI-NO_REDIRECT))))
+    (with-current-buffer (url-retrieve-synchronously
+                           (concat
+                             domain
+                             (unless (string-suffix-p "/" domain) "/")
+                             "oauth/token"))
+      (let ((json+ (buffer-string)))
+        (json-read-from-string (substring json+ (string-match-p "{" json+)))))))
+
