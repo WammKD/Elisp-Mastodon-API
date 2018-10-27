@@ -131,3 +131,16 @@
       (let ((json+ (buffer-string)))
         (json-read-from-string (substring json+ (string-match-p "{" json+)))))))
 
+(defun mastAPI-get-user-account (domain token)
+  ""
+  (let ((url-request-method        "GET")
+        (url-request-extra-headers `(("Authorization" . ,(concat
+                                                           "Bearer "
+                                                           token)))))
+    (with-current-buffer (url-retrieve-synchronously
+                           (concat
+                             domain
+                             (unless (string-suffix-p "/" domain) "/")
+                             "api/v1/accounts/verify_credentials"))
+      (let ((json+ (buffer-string)))
+        (json-read-from-string (substring json+ (string-match-p "{" json+)))))))
