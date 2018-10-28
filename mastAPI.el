@@ -267,3 +267,21 @@
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
     async-p))
+
+(defun mastAPI-account-mute (domain token id &optional notifications async-p)
+  ""
+  (mastAPI-request
+    "POST"
+    (mastAPI-create-URI domain "api/v1/accounts/" (number-to-string id) "/mute")
+    `(("Authorization" . ,(concat "Bearer " token)))
+    (list (cons "notifications" notifications))
+    async-p))
+
+(defun mastAPI-account-unmute (domain token id &optional async-p)
+  ""
+  (mastAPI-request
+    "POST"
+    (mastAPI-create-URI domain "api/v1/accounts/" (number-to-string id) "/unmute")
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
