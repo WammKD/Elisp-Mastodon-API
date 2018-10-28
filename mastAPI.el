@@ -285,3 +285,21 @@
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
     async-p))
+
+(defun mastAPI-account-endorse (domain token id &optional async-p)
+  ""
+  (mastAPI-request
+    "POST"
+    (mastAPI-create-URI domain "api/v1/accounts/" (number-to-string id) "/pin")
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
+
+(defun mastAPI-account-unendorse (domain token id &optional async-p)
+  ""
+  (mastAPI-request
+    "POST"
+    (mastAPI-create-URI domain "api/v1/accounts/" (number-to-string id) "/unpin")
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
