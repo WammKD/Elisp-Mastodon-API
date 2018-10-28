@@ -43,27 +43,26 @@
   ""
   (apply 'concat (cons domain (cons (unless (string-suffix-p "/" domain) "/") rest))))
 (defun mastAPI-concat-amps (args)
-  (mapconcat
-    (lambda (arg)
-      (concat (url-hexify-string (car arg)) "=" (url-hexify-string
-                                                  (mastAPI-convert-to-string
-                                                    (cdr arg)))))
-    args
-    "&"))
+  ""
+  (let ((temp (lambda (init final)
+                (let ((fst (car init)))
+                  (cond
+                   ((not fst)                           final)
+                   ((cdr fst) (funcall temp (cdr init) (concat
+                                                         (if (cdr init) "&" "")
+                                                         (url-hexify-string (car fst))
+                                                         "="
+                                                         (url-hexify-string
+                                                           (mastAPI-convert-to-string
+                                                             (cdr fst)))
+                                                         final)))
+                   (t         (funcall temp (cdr init) final)))))))
+    (funcall temp args "")))
 (defun mastAPI-prepare-image (imagePath)
   ""
   (with-temp-buffer
     (insert-file-contents imagePath)
     (buffer-substring-no-properties (point-min) (point-max))))
-(defun mastAPI-craft-optional-data-list (lst)
-  ""
-  (let ((temp (lambda (init final)
-                (let ((fst (car init)))
-                  (cond
-                   ((not fst)                                      final)
-                   ((cdr fst) (funcall temp (cdr init) (cons fst final)))
-                   (t         (funcall temp (cdr init)            final)))))))
-    (funcall temp lst '())))
 
 (defun mastAPI-process (buffer)
   ""
