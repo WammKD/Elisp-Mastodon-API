@@ -303,3 +303,12 @@
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
     async-p))
+
+(defun mastAPI-account-get-relationships (domain token id &optional async-p)
+  ""
+  (mastAPI-request
+    "GET"
+    (mastAPI-create-URI domain "api/v1/accounts/relationships?id=" (number-to-string id))
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
