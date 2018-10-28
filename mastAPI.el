@@ -145,7 +145,7 @@
 
 
 ;; Accounts
-(defun mastAPI-get-account (domain token id &optional async-p)
+(defun mastAPI-account-get (domain token id &optional async-p)
   ""
   (mastAPI-request
     "GET"
@@ -154,7 +154,7 @@
     '()
     async-p))
 
-(defun mastAPI-get-user-account (domain token &optional async-p)
+(defun mastAPI-account-current-user (domain token &optional async-p)
   ""
   (mastAPI-request
     "GET"
@@ -163,7 +163,7 @@
     '()
     async-p))
 
-(defun mastAPI-update-user-account (domain
+(defun mastAPI-account-update-user (domain
                                     token  &optional displayName      note
                                                      avatar           header
                                                      locked           source
@@ -184,7 +184,7 @@
       ("fieldsAttributes" . ,fieldsAttributes))
     async-p))
 
-(defun mastAPI-get-account-followers (domain token id &optional maxID sinceID
+(defun mastAPI-account-get-followers (domain token id &optional maxID sinceID
                                                                 limit async-p)
   ""
   (mastAPI-request
@@ -198,7 +198,7 @@
     '()
     async-p))
 
-(defun mastAPI-get-account-following (domain token id &optional maxID sinceID
+(defun mastAPI-account-get-following (domain token id &optional maxID sinceID
                                                                 limit async-p)
   ""
   (mastAPI-request
@@ -212,7 +212,7 @@
     '()
     async-p))
 
-(defun mastAPI-get-account-statuses (domain token
+(defun mastAPI-account-get-statuses (domain token
                                      id     &optional onlyMedia      pinned
                                                       excludeReplies maxID
                                                       sinceID        limit  async-p)
@@ -231,7 +231,7 @@
     '()
     async-p))
 
-(defun mastAPI-follow-account (domain token id &optional reblogs async-p)
+(defun mastAPI-account-follow (domain token id &optional reblogs async-p)
   ""
   (mastAPI-request
     "POST"
@@ -240,7 +240,7 @@
     (cons "reblogs" reblogs)
     async-p))
 
-(defun mastAPI-unfollow-account (domain token id &optional async-p)
+(defun mastAPI-account-unfollow (domain token id &optional async-p)
   ""
   (mastAPI-request
     "POST"
