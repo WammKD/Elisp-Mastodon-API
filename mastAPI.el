@@ -210,6 +210,31 @@
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
     async-p))
+
+(defun mastAPI-get-account-statuses (domain token
+                                     id     &optional onlyMedia      pinned
+                                                      excludeReplies maxID
+                                                      sinceID        limit  async-p)
+  ""
+  (mastAPI-request
+    "GET"
+    (mastAPI-create-URI domain                "api/v1/accounts/"
+                        (number-to-string id) "/statuses?"
+                        (mastAPI-concat-amps  `(("only_media"      .      ,onlyMedia)
+                                                ("pinned"          .         ,pinned)
+                                                ("exclude_replies" . ,excludeReplies)
+                                                ("max_id"          .          ,maxID)
+                                                ("since_id"        .        ,sinceID)
+                                                ("limit"           .          ,limit))))
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
+
+(defun mastAPI-follow-account (domain token id &optional reblogs async-p)
+  ""
+  (mastAPI-request
+    "GET"
+    (mastAPI-create-URI domain "api/v1/accounts/" (number-to-string id) "/follow")
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
     async-p))
