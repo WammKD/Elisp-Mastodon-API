@@ -157,3 +157,23 @@
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
     async-p))
+
+(defun mastAPI-get-user-account (domain token &optional displayName      note
+                                                        avatar           header
+                                                        locked           source
+                                                        fieldsAttributes async-p)
+  ""
+  (mastAPI-request
+    "PATCH"
+    (mastAPI-create-URI domain "api/v1/accounts/update_credentials")
+    (cons
+      `("Authorization" . ,(concat "Bearer " token))
+      (if (or avatar header) '(("Content-Type" . "multipart/form-data")) '()))
+    (mastAPI-craft-optional-data-list `(("display_name"     . ,displayName)
+                                        ("note"             . ,note)
+                                        ("avatar"           . ,avatar)
+                                        ("header"           . ,header)
+                                        ("locked"           . ,locked)
+                                        ("source"           . ,source)
+                                        ("fieldsAttributes" . ,fieldsAttributes)))
+    async-p))
