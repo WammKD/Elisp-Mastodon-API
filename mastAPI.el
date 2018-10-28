@@ -46,6 +46,11 @@
       (concat (url-hexify-string (car arg)) "=" (url-hexify-string (cdr arg))))
     args
     "&"))
+(defun mastAPI-prepare-image (imagePath)
+  ""
+  (with-temp-buffer
+    (insert-file-contents imagePath)
+    (buffer-substring-no-properties (point-min) (point-max))))
 (defun mastAPI-process (buffer)
   ""
   (with-current-buffer buffer
