@@ -38,10 +38,16 @@
 
 ;; Utility
 (defun mastAPI-convert-to-string (obj)
+  ""
   (if (numberp obj) (number-to-string obj) obj))
 (defun mastAPI-create-URI (domain &rest rest)
   ""
   (apply 'concat (cons domain (cons (unless (string-suffix-p "/" domain) "/") rest))))
+(defun mastAPI-prepare-image (imagePath)
+  ""
+  (with-temp-buffer
+    (insert-file-contents imagePath)
+    (buffer-substring-no-properties (point-min) (point-max))))
 (defun mastAPI-concat-amps (args)
   ""
   (let ((temp (lambda (init final)
@@ -58,11 +64,6 @@
                                                          final)))
                    (t         (funcall temp (cdr init) final)))))))
     (funcall temp args "")))
-(defun mastAPI-prepare-image (imagePath)
-  ""
-  (with-temp-buffer
-    (insert-file-contents imagePath)
-    (buffer-substring-no-properties (point-min) (point-max))))
 
 (defun mastAPI-process (buffer)
   ""
