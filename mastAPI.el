@@ -51,6 +51,16 @@
   (with-temp-buffer
     (insert-file-contents imagePath)
     (buffer-substring-no-properties (point-min) (point-max))))
+(defun mastAPI-craft-optional-data-list (lst)
+  ""
+  (let ((temp (lambda (init final)
+                (let ((fst (car init)))
+                  (cond
+                   ((not fst)                                      final)
+                   ((cdr fst) (funcall temp (cdr init) (cons fst final)))
+                   (t         (funcall temp (cdr init)            final)))))))
+    (funcall temp lst '())))
+
 (defun mastAPI-process (buffer)
   ""
   (with-current-buffer buffer
