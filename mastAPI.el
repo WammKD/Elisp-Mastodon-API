@@ -40,6 +40,12 @@
 (defun mastAPI-create-URI (domain &rest rest)
   ""
   (apply 'concat (cons domain (cons (unless (string-suffix-p "/" domain) "/") rest))))
+(defun mastAPI-concat-amps (args)
+  (mapconcat
+    (lambda (arg)
+      (concat (url-hexify-string (car arg)) "=" (url-hexify-string (cdr arg))))
+    args
+    "&"))
 (defun mastAPI-process (buffer)
   ""
   (with-current-buffer buffer
@@ -47,16 +53,9 @@
       (json-read-from-string (substring json+ (string-match-p "{" json+))))))
 (defun mastAPI-request (reqMeth finalDomain headers data async-p)
   ""
-  (let ((url-request-method        reqMeth)
-        (url-request-extra-headers headers)
-        (url-request-data          (mapconcat
-                                     (lambda (arg)
-                                       (concat
-                                         (url-hexify-string (car arg))
-                                         "="
-                                         (url-hexify-string (cdr arg))))
-                                     data
-                                     "&")))
+  (let ((url-request-method                           reqMeth)
+        (url-request-extra-headers                    headers)
+        (url-request-data          (mastAPI-concat-amps data)))
     (if async-p
         (url-retrieve finalDomain `(lambda (status)
                                      (funcall ,async-p (mastAPI-process
@@ -86,11 +85,11 @@
   (concat
     domain
     (unless (string-suffix-p "/" domain) "/")
-    "oauth/authorize"
-    "?scope="         (or scopes "read%20write%20follow")
-    "&response_type=" "code"
-    "&redirect_uri="  (or redirectURI mastAPI-NO_REDIRECT)
-    "&client_id="     clientID))
+    "oauth/authorize?"
+    (mastAPI-concat-amps `(("scope"         . ,(or scopes "read write follow"))
+                           ("response_type" . "code")
+                           ("redirect_uri"  . ,(or redirectURI mastAPI-NO_REDIRECT))
+                           ("client_id"     . ,clientID)))))
 
 (defun mastAPI-get-token-via-auth-code (domain       clientID
                                         clientSecret authCode
