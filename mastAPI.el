@@ -37,13 +37,17 @@
 
 
 ;; Utility
+(defun mastAPI-convert-to-string (obj)
+  (if (numberp obj) (number-to-string obj) obj))
 (defun mastAPI-create-URI (domain &rest rest)
   ""
   (apply 'concat (cons domain (cons (unless (string-suffix-p "/" domain) "/") rest))))
 (defun mastAPI-concat-amps (args)
   (mapconcat
     (lambda (arg)
-      (concat (url-hexify-string (car arg)) "=" (url-hexify-string (cdr arg))))
+      (concat (url-hexify-string (car arg)) "=" (url-hexify-string
+                                                  (mastAPI-convert-to-string
+                                                    (cdr arg)))))
     args
     "&"))
 (defun mastAPI-prepare-image (imagePath)
