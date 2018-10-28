@@ -69,7 +69,9 @@
   ""
   (with-current-buffer buffer
     (let ((json+ (buffer-string)))
-      (json-read-from-string (substring json+ (string-match-p "{" json+))))))
+      (json-read-from-string (substring json+ (or
+                                                (string-match-p "\n\n{"   json+)
+                                                (string-match-p "\n\n\\[" json+)))))))
 (defun mastAPI-request (reqMeth finalDomain headers data async-p)
   ""
   (let ((url-request-method                           reqMeth)
