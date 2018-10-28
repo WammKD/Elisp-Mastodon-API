@@ -238,7 +238,7 @@
     "POST"
     (mastAPI-create-URI domain "api/v1/accounts/" (number-to-string id) "/follow")
     `(("Authorization" . ,(concat "Bearer " token)))
-    (cons "reblogs" reblogs)
+    (list (cons "reblogs" reblogs))
     async-p))
 
 (defun mastAPI-account-unfollow (domain token id &optional async-p)
