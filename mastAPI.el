@@ -36,7 +36,9 @@
 
 
 
+;; Utility
 (defun mastAPI-create-URI (domain &rest rest)
+  ""
   (apply 'concat (cons domain (cons (unless (string-suffix-p "/" domain) "/") rest))))
 (defun mastAPI-process (buffer)
   ""
