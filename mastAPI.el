@@ -177,3 +177,33 @@
                                         ("source"           . ,source)
                                         ("fieldsAttributes" . ,fieldsAttributes)))
     async-p))
+
+(defun mastAPI-get-account-followers (domain token id &optional maxID sinceID
+                                                                limit async-p)
+  ""
+  (mastAPI-request
+    "GET"
+    (mastAPI-create-URI domain                "api/v1/accounts/"
+                        (number-to-string id) "/followers?"
+                        (mastAPI-concat-amps  (mastAPI-craft-optional-data-list
+                                                `(("max_id"   .   ,maxID)
+                                                  ("since_id" . ,sinceID)
+                                                  ("limit"    .   ,limit)))))
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
+
+(defun mastAPI-get-account-following (domain token id &optional maxID sinceID
+                                                                limit async-p)
+  ""
+  (mastAPI-request
+    "GET"
+    (mastAPI-create-URI domain                "api/v1/accounts/"
+                        (number-to-string id) "/following?"
+                        (mastAPI-concat-amps  (mastAPI-craft-optional-data-list
+                                                `(("max_id"   .   ,maxID)
+                                                  ("since_id" . ,sinceID)
+                                                  ("limit"    .   ,limit)))))
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
