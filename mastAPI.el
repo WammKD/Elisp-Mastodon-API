@@ -174,13 +174,13 @@
     (cons
       `("Authorization" . ,(concat "Bearer " token))
       (if (or avatar header) '(("Content-Type" . "multipart/form-data")) '()))
-    (mastAPI-craft-optional-data-list `(("display_name"     . ,displayName)
-                                        ("note"             . ,note)
-                                        ("avatar"           . ,avatar)
-                                        ("header"           . ,header)
-                                        ("locked"           . ,locked)
-                                        ("source"           . ,source)
-                                        ("fieldsAttributes" . ,fieldsAttributes)))
+    `(("display_name"     . ,displayName)
+      ("note"             . ,note)
+      ("avatar"           . ,avatar)
+      ("header"           . ,header)
+      ("locked"           . ,locked)
+      ("source"           . ,source)
+      ("fieldsAttributes" . ,fieldsAttributes))
     async-p))
 
 (defun mastAPI-get-account-followers (domain token id &optional maxID sinceID
@@ -190,10 +190,9 @@
     "GET"
     (mastAPI-create-URI domain                "api/v1/accounts/"
                         (number-to-string id) "/followers?"
-                        (mastAPI-concat-amps  (mastAPI-craft-optional-data-list
-                                                `(("max_id"   .   ,maxID)
-                                                  ("since_id" . ,sinceID)
-                                                  ("limit"    .   ,limit)))))
+                        (mastAPI-concat-amps  `(("max_id"   .   ,maxID)
+                                                ("since_id" . ,sinceID)
+                                                ("limit"    .   ,limit))))
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
     async-p))
@@ -205,10 +204,12 @@
     "GET"
     (mastAPI-create-URI domain                "api/v1/accounts/"
                         (number-to-string id) "/following?"
-                        (mastAPI-concat-amps  (mastAPI-craft-optional-data-list
-                                                `(("max_id"   .   ,maxID)
-                                                  ("since_id" . ,sinceID)
-                                                  ("limit"    .   ,limit)))))
+                        (mastAPI-concat-amps  `(("max_id"   .   ,maxID)
+                                                ("since_id" . ,sinceID)
+                                                ("limit"    .   ,limit))))
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
     async-p))
