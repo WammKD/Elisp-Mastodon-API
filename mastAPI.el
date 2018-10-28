@@ -163,10 +163,11 @@
     '()
     async-p))
 
-(defun mastAPI-get-user-account (domain token &optional displayName      note
-                                                        avatar           header
-                                                        locked           source
-                                                        fieldsAttributes async-p)
+(defun mastAPI-update-user-account (domain
+                                    token  &optional displayName      note
+                                                     avatar           header
+                                                     locked           source
+                                                     fieldsAttributes async-p)
   ""
   (mastAPI-request
     "PATCH"
