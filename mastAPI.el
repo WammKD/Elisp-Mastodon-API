@@ -239,3 +239,12 @@
     `(("Authorization" . ,(concat "Bearer " token)))
     (cons "reblogs" reblogs)
     async-p))
+
+(defun mastAPI-unfollow-account (domain token id &optional async-p)
+  ""
+  (mastAPI-request
+    "POST"
+    (mastAPI-create-URI domain "api/v1/accounts/" (number-to-string id) "/unfollow")
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
