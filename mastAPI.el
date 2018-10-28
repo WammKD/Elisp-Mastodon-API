@@ -249,3 +249,21 @@
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
     async-p))
+
+(defun mastAPI-account-block (domain token id &optional async-p)
+  ""
+  (mastAPI-request
+    "POST"
+    (mastAPI-create-URI domain "api/v1/accounts/" (number-to-string id) "/block")
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
+
+(defun mastAPI-account-unblock (domain token id &optional async-p)
+  ""
+  (mastAPI-request
+    "POST"
+    (mastAPI-create-URI domain "api/v1/accounts/" (number-to-string id) "/unblock")
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
