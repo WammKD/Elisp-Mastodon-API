@@ -381,3 +381,15 @@
     `(("Authorization" . ,(concat "Bearer " token)))
     (list (cons "domain" domainToUnblock))
     async-p))
+
+
+
+;; Endorsements
+(defun mastAPI-endorsements-get (domain token &optional async-p)
+  ""
+  (mastAPI-request
+    mastAPI-REQUEST_GET
+    (mastAPI-create-URI domain "api/v1/endorsements")
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
