@@ -31,7 +31,17 @@
 (require 'url)
 (require 'json)
 
-(defconst mastAPI-NO_REDIRECT "urn:ietf:wg:oauth:2.0:oob"
+(defconst mastAPI-REQUEST_GET    "GET"
+  "")
+(defconst mastAPI-REQUEST_PUT    "PUT"
+  "")
+(defconst mastAPI-REQUEST_POST   "POST"
+  "")
+(defconst mastAPI-REQUEST_PATCH  "PATCH"
+  "")
+(defconst mastAPI-REQUEST_DELETE "DELETE"
+  "")
+(defconst mastAPI-NO_REDIRECT   "urn:ietf:wg:oauth:2.0:oob"
   "")
 
 
@@ -89,7 +99,7 @@
 (defun mastAPI-register-app (domain clientName website &optional redirectURI)
   ""
   (mastAPI-request
-    "POST"
+    mastAPI-REQUEST_POST
     (mastAPI-create-URI domain "api/v1/apps")
     '()
     `(("client_name"   . ,clientName)
@@ -117,7 +127,7 @@
                                         &optional    redirectURI async-p)
   ""
   (mastAPI-request
-    "POST"
+    mastAPI-REQUEST_POST
     (mastAPI-create-URI domain "oauth/token")
     '()
     `(("client_id"     . ,clientID)
@@ -132,7 +142,7 @@
                                         password     &optional scopes async-p)
   ""
   (mastAPI-request
-    "POST"
+    mastAPI-REQUEST_POST
     (mastAPI-create-URI domain "oauth/token")
     '()
     `(("client_id"     . ,clientID)
@@ -149,7 +159,7 @@
 (defun mastAPI-account-get (domain token id &optional async-p)
   ""
   (mastAPI-request
-    "GET"
+    mastAPI-REQUEST_GET
     (mastAPI-create-URI domain "api/v1/accounts/" (number-to-string id))
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
@@ -158,7 +168,7 @@
 (defun mastAPI-account-current-user (domain token &optional async-p)
   ""
   (mastAPI-request
-    "GET"
+    mastAPI-REQUEST_GET
     (mastAPI-create-URI domain "api/v1/accounts/verify_credentials")
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
@@ -189,7 +199,7 @@
                                                                 limit async-p)
   ""
   (mastAPI-request
-    "GET"
+    mastAPI-REQUEST_GET
     (mastAPI-create-URI domain                "api/v1/accounts/"
                         (number-to-string id) "/followers?"
                         (mastAPI-concat-amps  `(("max_id"   .   ,maxID)
@@ -203,7 +213,7 @@
                                                                 limit async-p)
   ""
   (mastAPI-request
-    "GET"
+    mastAPI-REQUEST_GET
     (mastAPI-create-URI domain                "api/v1/accounts/"
                         (number-to-string id) "/following?"
                         (mastAPI-concat-amps  `(("max_id"   .   ,maxID)
@@ -219,7 +229,7 @@
                                                       sinceID        limit  async-p)
   ""
   (mastAPI-request
-    "GET"
+    mastAPI-REQUEST_GET
     (mastAPI-create-URI domain                "api/v1/accounts/"
                         (number-to-string id) "/statuses?"
                         (mastAPI-concat-amps  `(("only_media"      .      ,onlyMedia)
@@ -235,7 +245,7 @@
 (defun mastAPI-account-follow (domain token id &optional reblogs async-p)
   ""
   (mastAPI-request
-    "POST"
+    mastAPI-REQUEST_POST
     (mastAPI-create-URI domain "api/v1/accounts/" (number-to-string id) "/follow")
     `(("Authorization" . ,(concat "Bearer " token)))
     (list (cons "reblogs" reblogs))
@@ -244,7 +254,7 @@
 (defun mastAPI-account-unfollow (domain token id &optional async-p)
   ""
   (mastAPI-request
-    "POST"
+    mastAPI-REQUEST_POST
     (mastAPI-create-URI domain "api/v1/accounts/" (number-to-string id) "/unfollow")
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
@@ -253,7 +263,7 @@
 (defun mastAPI-account-block (domain token id &optional async-p)
   ""
   (mastAPI-request
-    "POST"
+    mastAPI-REQUEST_POST
     (mastAPI-create-URI domain "api/v1/accounts/" (number-to-string id) "/block")
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
@@ -262,7 +272,7 @@
 (defun mastAPI-account-unblock (domain token id &optional async-p)
   ""
   (mastAPI-request
-    "POST"
+    mastAPI-REQUEST_POST
     (mastAPI-create-URI domain "api/v1/accounts/" (number-to-string id) "/unblock")
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
@@ -271,7 +281,7 @@
 (defun mastAPI-account-mute (domain token id &optional notifications async-p)
   ""
   (mastAPI-request
-    "POST"
+    mastAPI-REQUEST_POST
     (mastAPI-create-URI domain "api/v1/accounts/" (number-to-string id) "/mute")
     `(("Authorization" . ,(concat "Bearer " token)))
     (list (cons "notifications" notifications))
@@ -280,7 +290,7 @@
 (defun mastAPI-account-unmute (domain token id &optional async-p)
   ""
   (mastAPI-request
-    "POST"
+    mastAPI-REQUEST_POST
     (mastAPI-create-URI domain "api/v1/accounts/" (number-to-string id) "/unmute")
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
@@ -289,7 +299,7 @@
 (defun mastAPI-account-endorse (domain token id &optional async-p)
   ""
   (mastAPI-request
-    "POST"
+    mastAPI-REQUEST_POST
     (mastAPI-create-URI domain "api/v1/accounts/" (number-to-string id) "/pin")
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
@@ -298,7 +308,7 @@
 (defun mastAPI-account-unendorse (domain token id &optional async-p)
   ""
   (mastAPI-request
-    "POST"
+    mastAPI-REQUEST_POST
     (mastAPI-create-URI domain "api/v1/accounts/" (number-to-string id) "/unpin")
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
@@ -307,7 +317,7 @@
 (defun mastAPI-account-get-relationships (domain token id &optional async-p)
   ""
   (mastAPI-request
-    "GET"
+    mastAPI-REQUEST_GET
     (mastAPI-create-URI domain "api/v1/accounts/relationships?id=" (number-to-string id))
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
@@ -316,7 +326,7 @@
 (defun mastAPI-account-search (domain token q &optional limit following async-p)
   ""
   (mastAPI-request
-    "GET"
+    mastAPI-REQUEST_GET
     (mastAPI-create-URI domain               "api/v1/accounts/search?"
                         (mastAPI-concat-amps `(("q" .                 ,q)
                                                ("limit" .         ,limit)
