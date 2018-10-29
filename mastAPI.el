@@ -334,3 +334,50 @@
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
     async-p))
+
+
+
+;; Blocks
+(defun mastAPI-blocks-get-accounts (domain token &optional maxID sinceID
+                                                           limit async-p)
+  ""
+  (mastAPI-request
+    mastAPI-REQUEST_GET
+    (mastAPI-create-URI domain               "api/v1/blocks?"
+                        (mastAPI-concat-amps `(("max_id"   .   ,maxID)
+                                               ("since_id" . ,sinceID)
+                                               ("limit"    .   ,limit))))
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
+
+(defun mastAPI-blocks-get-domains (domain token &optional maxID sinceID
+                                                          limit async-p)
+  ""
+  (mastAPI-request
+    mastAPI-REQUEST_GET
+    (mastAPI-create-URI domain               "api/v1/domain_blocks?"
+                        (mastAPI-concat-amps `(("max_id"   .   ,maxID)
+                                               ("since_id" . ,sinceID)
+                                               ("limit"    .   ,limit))))
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
+
+(defun mastAPI-blocks-block-domain (domain token domainToBlock &optional async-p)
+  ""
+  (mastAPI-request
+    mastAPI-REQUEST_POST
+    (mastAPI-create-URI domain "api/v1/domain_blocks")
+    `(("Authorization" . ,(concat "Bearer " token)))
+    (list (cons "domain" domainToBlock))
+    async-p))
+
+(defun mastAPI-blocks-unblock-domain (domain token domainToUnblock &optional async-p)
+  ""
+  (mastAPI-request
+    mastAPI-REQUEST_DELETE
+    (mastAPI-create-URI domain "api/v1/domain_blocks")
+    `(("Authorization" . ,(concat "Bearer " token)))
+    (list (cons "domain" domainToUnblock))
+    async-p))
