@@ -312,3 +312,15 @@
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
     async-p))
+
+(defun mastAPI-account-search (domain token q &optional limit following async-p)
+  ""
+  (mastAPI-request
+    "GET"
+    (mastAPI-create-URI domain               "api/v1/accounts/search?"
+                        (mastAPI-concat-amps `(("q" .                 ,q)
+                                               ("limit" .         ,limit)
+                                               ("following" . ,following))))
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
