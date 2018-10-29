@@ -408,3 +408,30 @@
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
     async-p))
+
+
+
+;; Filters
+(defun mastAPI-filters-get (domain token &optional async-p)
+  ""
+  (mastAPI-request
+    mastAPI-REQUEST_GET
+    (mastAPI-create-URI domain "api/v1/filters")
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
+
+(defun mastAPI-filters-create (domain token
+                               phrase context &optional irreversible wholeWord
+                                                        expiresIn    async-p)
+  ""
+  (mastAPI-request
+    mastAPI-REQUEST_POST
+    (mastAPI-create-URI domain "api/v1/filters")
+    `(("Authorization" . ,(concat "Bearer " token)))
+    `(("phrase"       .       ,phrase)
+      ("context"      .      ,context)
+      ("irreversible" . ,irreversible)
+      ("whole_word"   .    ,wholeWord)
+      ("expires_in"   .    ,expiresIn))
+    async-p))
