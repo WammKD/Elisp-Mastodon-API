@@ -328,8 +328,8 @@
   (mastAPI-request
     mastAPI-REQUEST_GET
     (mastAPI-create-URI domain               "api/v1/accounts/search?"
-                        (mastAPI-concat-amps `(("q" .                 ,q)
-                                               ("limit" .         ,limit)
+                        (mastAPI-concat-amps `(("q"         .         ,q)
+                                               ("limit"     .     ,limit)
                                                ("following" . ,following))))
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
