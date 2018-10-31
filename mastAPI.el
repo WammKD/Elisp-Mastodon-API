@@ -484,3 +484,23 @@
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
     async-p))
+
+(defun mastAPI-follows-requests-authorize (domain token id &optional async-p)
+  ""
+  (mastAPI-request
+    mastAPI-REQUEST_POST
+    (mastAPI-create-URI domain                "api/v1/follow_requests/"
+                        (number-to-string id) "/authorize")
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
+
+(defun mastAPI-follows-requests-reject (domain token id &optional async-p)
+  ""
+  (mastAPI-request
+    mastAPI-REQUEST_POST
+    (mastAPI-create-URI domain                "api/v1/follow_requests/"
+                        (number-to-string id) "/reject")
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
