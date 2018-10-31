@@ -412,7 +412,7 @@
 
 
 ;; Filters
-(defun mastAPI-filters-get-current-user (domain token &optional async-p)
+(defun mastAPI-filters-current-user (domain token &optional async-p)
   ""
   (mastAPI-request
     mastAPI-REQUEST_GET
