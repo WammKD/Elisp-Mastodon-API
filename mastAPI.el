@@ -536,6 +536,9 @@
     (list (cons "uri" uri))
     async-p))
 
+
+
+;; Instances
 (defun mastAPI-instance-current (domain token &optional async-p)
   ""
   (mastAPI-request
