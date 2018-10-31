@@ -547,3 +547,15 @@
     `()
     '()
     async-p))
+
+
+
+;; Custom Emojis
+(defun mastAPI-emojis-current-instance (domain &optional async-p)
+  ""
+  (mastAPI-request
+    mastAPI-REQUEST_GET
+    (mastAPI-create-URI domain "api/v1/custom_emojis")
+    `()
+    '()
+    async-p))
