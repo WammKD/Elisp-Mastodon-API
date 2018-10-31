@@ -435,3 +435,36 @@
       ("whole_word"   .    ,wholeWord)
       ("expires_in"   .    ,expiresIn))
     async-p))
+
+(defun mastAPI-filters-get (domain token id &optional async-p)
+  ""
+  (mastAPI-request
+    mastAPI-REQUEST_GET
+    (mastAPI-create-URI domain "api/v1/filters/" (number-to-string id))
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
+
+(defun mastAPI-filters-update (domain token id &optional phrase       context
+                                                         irreversible wholeWord
+                                                         expiresIn    async-p)
+  ""
+  (mastAPI-request
+    mastAPI-REQUEST_PUT
+    (mastAPI-create-URI domain "api/v1/filters/" (number-to-string id))
+    `(("Authorization" . ,(concat "Bearer " token)))
+    `(("phrase"       .       ,phrase)
+      ("context"      .      ,context)
+      ("irreversible" . ,irreversible)
+      ("whole_word"   .    ,wholeWord)
+      ("expires_in"   .    ,expiresIn))
+    async-p))
+
+(defun mastAPI-filters-delete (domain token id &optional async-p)
+  ""
+  (mastAPI-request
+    mastAPI-REQUEST_DELETE
+    (mastAPI-create-URI domain "api/v1/filters/" (number-to-string id))
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
