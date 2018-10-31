@@ -544,6 +544,6 @@
   (mastAPI-request
     mastAPI-REQUEST_GET
     (mastAPI-create-URI domain "api/v1/instance")
-    `(("Authorization" . ,(concat "Bearer " token)))
+    `()
     '()
     async-p))
