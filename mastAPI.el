@@ -468,3 +468,19 @@
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
     async-p))
+
+
+
+;; Follows
+(defun mastAPI-follows-requests-get (domain token &optional maxID sinceID
+                                                            limit async-p)
+  ""
+  (mastAPI-request
+    mastAPI-REQUEST_GET
+    (mastAPI-create-URI domain               "api/v1/follow_requests?"
+                        (mastAPI-concat-amps `(("max_id"   .   ,maxID)
+                                               ("since_id" . ,sinceID)
+                                               ("limit"    .   ,limit))))
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
