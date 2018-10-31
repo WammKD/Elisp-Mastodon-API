@@ -156,7 +156,7 @@
 
 
 ;; Accounts
-(defun mastAPI-account-get (domain token id &optional async-p)
+(defun mastAPI-accounts-get (domain token id &optional async-p)
   ""
   (mastAPI-request
     mastAPI-REQUEST_GET
@@ -165,7 +165,7 @@
     '()
     async-p))
 
-(defun mastAPI-account-current-user (domain token &optional async-p)
+(defun mastAPI-accounts-current-user (domain token &optional async-p)
   ""
   (mastAPI-request
     mastAPI-REQUEST_GET
@@ -174,11 +174,11 @@
     '()
     async-p))
 
-(defun mastAPI-account-update-user (domain
-                                    token  &optional displayName      note
-                                                     avatar           header
-                                                     locked           source
-                                                     fieldsAttributes async-p)
+(defun mastAPI-accounts-update-user (domain
+                                     token  &optional displayName      note
+                                                      avatar           header
+                                                      locked           source
+                                                      fieldsAttributes async-p)
   ""
   (mastAPI-request
     "PATCH"
@@ -195,8 +195,8 @@
       ("fieldsAttributes" . ,fieldsAttributes))
     async-p))
 
-(defun mastAPI-account-get-followers (domain token id &optional maxID sinceID
-                                                                limit async-p)
+(defun mastAPI-accounts-get-followers (domain token id &optional maxID sinceID
+                                                                 limit async-p)
   ""
   (mastAPI-request
     mastAPI-REQUEST_GET
@@ -209,8 +209,8 @@
     '()
     async-p))
 
-(defun mastAPI-account-get-following (domain token id &optional maxID sinceID
-                                                                limit async-p)
+(defun mastAPI-accounts-get-following (domain token id &optional maxID sinceID
+                                                                 limit async-p)
   ""
   (mastAPI-request
     mastAPI-REQUEST_GET
@@ -223,10 +223,10 @@
     '()
     async-p))
 
-(defun mastAPI-account-get-statuses (domain token
-                                     id     &optional onlyMedia      pinned
-                                                      excludeReplies maxID
-                                                      sinceID        limit  async-p)
+(defun mastAPI-accounts-get-statuses (domain token
+                                      id     &optional onlyMedia      pinned
+                                                       excludeReplies maxID
+                                                       sinceID        limit  async-p)
   ""
   (mastAPI-request
     mastAPI-REQUEST_GET
@@ -242,7 +242,7 @@
     '()
     async-p))
 
-(defun mastAPI-account-follow (domain token id &optional reblogs async-p)
+(defun mastAPI-accounts-follow (domain token id &optional reblogs async-p)
   ""
   (mastAPI-request
     mastAPI-REQUEST_POST
@@ -251,7 +251,7 @@
     (list (cons "reblogs" reblogs))
     async-p))
 
-(defun mastAPI-account-unfollow (domain token id &optional async-p)
+(defun mastAPI-accounts-unfollow (domain token id &optional async-p)
   ""
   (mastAPI-request
     mastAPI-REQUEST_POST
@@ -260,7 +260,7 @@
     '()
     async-p))
 
-(defun mastAPI-account-block (domain token id &optional async-p)
+(defun mastAPI-accounts-block (domain token id &optional async-p)
   ""
   (mastAPI-request
     mastAPI-REQUEST_POST
@@ -269,7 +269,7 @@
     '()
     async-p))
 
-(defun mastAPI-account-unblock (domain token id &optional async-p)
+(defun mastAPI-accounts-unblock (domain token id &optional async-p)
   ""
   (mastAPI-request
     mastAPI-REQUEST_POST
@@ -278,7 +278,7 @@
     '()
     async-p))
 
-(defun mastAPI-account-mute (domain token id &optional notifications async-p)
+(defun mastAPI-accounts-mute (domain token id &optional notifications async-p)
   ""
   (mastAPI-request
     mastAPI-REQUEST_POST
@@ -287,7 +287,7 @@
     (list (cons "notifications" notifications))
     async-p))
 
-(defun mastAPI-account-unmute (domain token id &optional async-p)
+(defun mastAPI-accounts-unmute (domain token id &optional async-p)
   ""
   (mastAPI-request
     mastAPI-REQUEST_POST
@@ -296,7 +296,7 @@
     '()
     async-p))
 
-(defun mastAPI-account-endorse (domain token id &optional async-p)
+(defun mastAPI-accounts-endorse (domain token id &optional async-p)
   ""
   (mastAPI-request
     mastAPI-REQUEST_POST
@@ -305,7 +305,7 @@
     '()
     async-p))
 
-(defun mastAPI-account-unendorse (domain token id &optional async-p)
+(defun mastAPI-accounts-unendorse (domain token id &optional async-p)
   ""
   (mastAPI-request
     mastAPI-REQUEST_POST
@@ -314,7 +314,7 @@
     '()
     async-p))
 
-(defun mastAPI-account-get-relationships (domain token id &optional async-p)
+(defun mastAPI-accounts-get-relationships (domain token id &optional async-p)
   ""
   (mastAPI-request
     mastAPI-REQUEST_GET
@@ -323,7 +323,7 @@
     '()
     async-p))
 
-(defun mastAPI-account-search (domain token q &optional limit following async-p)
+(defun mastAPI-accounts-search (domain token q &optional limit following async-p)
   ""
   (mastAPI-request
     mastAPI-REQUEST_GET
@@ -539,7 +539,7 @@
 
 
 ;; Instances
-(defun mastAPI-instance-current (domain token &optional async-p)
+(defun mastAPI-instances-current (domain &optional async-p)
   ""
   (mastAPI-request
     mastAPI-REQUEST_GET
