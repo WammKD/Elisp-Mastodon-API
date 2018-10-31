@@ -504,3 +504,43 @@
     `(("Authorization" . ,(concat "Bearer " token)))
     '()
     async-p))
+
+(defun mastAPI-follows-suggestions-get (domain token &optional maxID sinceID
+                                                               limit async-p)
+  ""
+  (mastAPI-request
+    mastAPI-REQUEST_GET
+    (mastAPI-create-URI domain               "api/v1/suggestions?"
+                        (mastAPI-concat-amps `(("max_id"   .   ,maxID)
+                                               ("since_id" . ,sinceID)
+                                               ("limit"    .   ,limit))))
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
+
+(defun mastAPI-follows-suggestions-delete (domain token id &optional async-p)
+  ""
+  (mastAPI-request
+    mastAPI-REQUEST_DELETE
+    (mastAPI-create-URI domain "api/v1/suggestions/" (number-to-string id))
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
+
+(defun mastAPI-follows-follow-user (domain token uri &optional async-p)
+  ""
+  (mastAPI-request
+    mastAPI-REQUEST_POST
+    (mastAPI-create-URI domain "api/v1/follows")
+    `(("Authorization" . ,(concat "Bearer " token)))
+    (list (cons "uri" uri))
+    async-p))
+
+(defun mastAPI-instance-current (domain token &optional async-p)
+  ""
+  (mastAPI-request
+    mastAPI-REQUEST_GET
+    (mastAPI-create-URI domain "api/v1/instance")
+    `(("Authorization" . ,(concat "Bearer " token)))
+    '()
+    async-p))
